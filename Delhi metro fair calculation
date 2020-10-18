@@ -1,0 +1,88 @@
+import java.util.*;
+import java.text.DecimalFormat;
+public class TransitCalculator{
+
+    int  daysUseTransit;
+    int useRide;
+
+ // declare  TransitCalculator Method
+  public TransitCalculator(int transit, int ride){
+      daysUseTransit = transit;
+      useRide = ride;
+    }
+    // declare array
+    String[] options = {"Pay-per-ride","7-day Unlimited Ride", "30-day Unlimited Rides"};
+    double[] ridePrices = {2.75, 33.00, 127.00};
+     
+     //declare unlimited7Price method
+     public double unlimited7Price(){
+       double pricePerRide = 0;
+       int totalPasses = (daysUseTransit / 7) + 1;
+       double rideType = ridePrices[1];
+       double totalPrice = totalPasses * rideType;
+        pricePerRide = totalPrice / useRide;
+
+        return pricePerRide;
+     }
+
+     // declare method getRidePrices
+     public double[] getRidePrices(){
+        double[] prices = new double[3];
+        //price per ride if you pay per ride
+        prices[0] = ridePrices[0];
+
+        //unlimited 7 price per ride
+        prices[1] = unlimited7Price();
+
+        //unlimited 30 per ride
+        prices[2] = ridePrices[2] / useRide;
+        return prices;
+     }
+
+     // string method getBestfare
+   public String getBestFare(){
+     DecimalFormat df = new DecimalFormat("$#0.00");
+        String advice = "You should get the ";
+        double[] prices = getRidePrices();
+            if(prices[0] <= prices[1] && prices[0] <= prices[2]) {
+                advice += "Pay-per-ride option at " + df.format(ridePrices[0]) + " per ride.";
+            } else if (prices[1] <= prices[2]) {
+                advice += "7-day Unlimited option at " + df.format(prices[1]) + " per ride.";
+            } else if (prices[2] <= prices[1] && prices[2] <= prices[0]) {
+                advice += "30-day Unlimited option at " + df.format(prices[2]) + " per ride.";
+            } else {
+                advice += "heck out of dodge! Just kidding my program is broken lulz.";
+            }
+        return advice;
+   }
+
+
+//Driver
+
+  public static void main(String[] args){
+    TransitCalculator tc = new TransitCalculator(5, 12);
+    System.out.println(tc.unlimited7Price());
+     //System.out.println(tc.getRidePrices());
+     System.out.println(tc.getBestFare());
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
